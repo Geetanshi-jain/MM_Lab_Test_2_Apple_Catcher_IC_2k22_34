@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40">
+  <defs>
+    <radialGradient id="rottenGrad" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#8a9a4b"/>
+      <stop offset="60%" stop-color="#556b2f"/>
+      <stop offset="100%" stop-color="#3b2b1d"/>
+    </radialGradient>
+    <radialGradient id="bruiseGrad" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#2a1a0f"/>
+      <stop offset="100%" stop-color="#3b2b1d" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <!-- Stem -->
+  <path d="M20 10 Q21 4 25 3" stroke="#4a3018" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+  <!-- Wilting Leaf -->
+  <path d="M21 7 Q26 6 27 10 Q23 11 21 7 Z" fill="#605b2a"/>
+  <!-- Apple Body -->
+  <path d="M20 12 C13 7 7 13 8 22 C9 30 15 36 20 34 C25 36 31 30 32 22 C33 13 27 7 20 12 Z" fill="url(#rottenGrad)"/>
+  <!-- Rotten Bruises & Spots -->
+  <ellipse cx="14" cy="24" rx="4" ry="5" fill="#2c2214" opacity="0.85"/>
+  <circle cx="25" cy="20" r="3" fill="#241a0e" opacity="0.8"/>
+  <circle cx="21" cy="28" r="2.5" fill="#20180c" opacity="0.75"/>
+  <!-- Small Worm/Bite Mark -->
+  <circle cx="13" cy="23" r="1.5" fill="#120c06"/>
+  <path d="M12 23 Q10 21 11 19" stroke="#9bc758" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+</svg>
+

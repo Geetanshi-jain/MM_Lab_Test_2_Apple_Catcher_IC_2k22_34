@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>Apple Catcher Deluxe</title>
+</head>
+
+<body>
+  <header>
+    <h1>🍎 Apple Catcher Deluxe</h1>
+  </header>
+
+  <main>
+    <div id="gameContainer">
+      <canvas id="gameCanvas"></canvas>
+
+      <!-- In-Game HUD -->
+      <div id="gameHud" class="hud-overlay" style="display: none;">
+        <div class="hud-top-bar">
+          <div class="hud-left">
+            <div class="hud-stat"><span class="hud-label">Score:</span> <strong id="hudScore">0</strong><span id="hudTargetWrap"> / <span id="hudTarget">10</span></span></div>
+            <div class="hud-substat">⭐ Best: <strong id="hudBest">0</strong></div>
+          </div>
+
+          <div class="hud-center">
+            <div id="hudHearts" class="hearts-container" title="Lives">
+              <span class="heart full" id="heart1">❤️</span>
+              <span class="heart full" id="heart2">❤️</span>
+              <span class="heart full" id="heart3">❤️</span>
+            </div>
+            <div id="hudCombo" class="combo-text"></div>
+          </div>
+
+          <div class="hud-right">
+            <div class="hud-stat">⏱️ <strong id="hudTimer">30</strong>s</div>
+            <div class="hud-controls">
+              <button id="hudPauseBtn" class="hud-btn" title="Pause Game (P)">⏸️</button>
+              <button id="hudSoundBtn" class="hud-btn" title="Toggle Sound">🔊</button>
+              <button id="hudFullscreenBtn" class="hud-btn" title="Toggle Fullscreen (F)">⛶</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Dynamic Status Badges -->
+        <div class="hud-status-bar">
+          <div id="hudFrenzyBadge" class="status-badge frenzy-badge" style="display: none;">⚡ 2X FRENZY! <span id="frenzySec">5</span>s</div>
+          <div id="hudSlowBadge" class="status-badge slow-badge" style="display: none;">🐌 SLOWED <span id="slowSec">3</span>s</div>
+        </div>
+      </div>
+
+      <!-- Start Menu -->
+      <div id="gameStartDiv" class="gameUI">
+        <div class="menu-card">
+          <div class="title-group">
+            <h1 class="game-title">🍎 Apple Catcher</h1>
+            <span class="title-badge">Deluxe</span>
+          </div>
+
+          <div class="best-score-banner">
+            ⭐ High Score: <strong id="menuBestScore">0</strong>
+          </div>
+
+          <div class="settings-panel">
+            <div class="setting-item">
+              <label for="targetScoreInput">Target Score:</label>
+              <input id="targetScoreInput" type="number" min="5" max="999" value="15" />
+            </div>
+            <div class="setting-item">
+              <label for="timeLimitInput">Time Limit (sec):</label>
+              <input id="timeLimitInput" type="number" min="10" max="300" value="30" />
+            </div>
+          </div>
+
+          <!-- Items Legend -->
+          <div class="legend-box">
+            <h3>Items Guide</h3>
+            <div class="legend-grid">
+              <div class="legend-item"><img src="/assets/apple.png" alt="Normal Apple" /> <span><strong>Apple:</strong> +1 pt (Combo)</span></div>
+              <div class="legend-item"><img src="/assets/golden_apple.svg" alt="Golden Apple" /> <span><strong>Gold Apple:</strong> +5 pts</span></div>
+              <div class="legend-item"><img src="/assets/clock.svg" alt="Clock" /> <span><strong>Clock:</strong> +5 sec</span></div>
+              <div class="legend-item"><img src="/assets/rotten_apple.svg" alt="Rotten Apple" /> <span><strong>Rotten:</strong> -2 pts</span></div>
+              <div class="legend-item"><img src="/assets/bug.svg" alt="Bug" /> <span><strong>Bug:</strong> Slows 3s</span></div>
+              <div class="legend-item"><img src="/assets/bomb.svg" alt="Bomb" /> <span><strong>Bomb:</strong> -1 Life</span></div>
+            </div>
+          </div>
+
+          <div class="controls-hint">
+            <p>🎮 <strong>Controls:</strong> Arrow Keys / A & D &bull; Mouse / Touch Drag &bull; <strong>P</strong> to Pause</p>
+          </div>
+
+          <div class="menu-actions">
+            <button id="gameStartBtn" class="primary-btn">Start Game</button>
+            <button id="menuSoundBtn" class="secondary-btn">🔊 Sound: ON</button>
+            <button id="menuFullscreenBtn" class="secondary-btn" title="Toggle Fullscreen">⛶</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pause Overlay -->
+      <div id="gamePauseDiv" class="gameUI" style="display: none;">
+        <div class="menu-card pause-card">
+          <h2>⏸️ Game Paused</h2>
+          <p>Take a breath!</p>
+          <div class="menu-actions stacked">
+            <button id="resumeBtn" class="primary-btn">▶️ Resume</button>
+            <button id="pauseRestartBtn" class="secondary-btn">🔄 Restart</button>
+            <button id="pauseSoundBtn" class="secondary-btn">🔊 Sound: ON</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Over / Victory Overlay -->
+      <div id="gameEndDiv" class="gameUI" style="display: none;">
+        <div class="menu-card end-card">
+          <div id="gameWinLoseBadge" class="result-badge">Game Over</div>
+          <h2 id="gameWinLoseSpan">You Lose!</h2>
+
+          <div id="newRecordBanner" class="new-record-banner" style="display: none;">
+            🎉 NEW HIGH SCORE! 🎉
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-card">
+              <span class="stat-label">Final Score</span>
+              <strong id="gameEndScoreSpan" class="stat-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">High Score</span>
+              <strong id="gameEndBestSpan" class="stat-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Apples Caught</span>
+              <strong id="gameEndCaughtSpan" class="stat-value">0</strong>
+            </div>
+            <div class="stat-card">
+              <span class="stat-label">Max Combo</span>
+              <strong id="gameEndComboSpan" class="stat-value">0</strong>
+            </div>
+          </div>
+
+          <div class="menu-actions">
+            <button id="playAgainBtn" class="primary-btn">🔄 Play Again</button>
+            <button id="mainMenuBtn" class="secondary-btn">🏠 Menu</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>Apple Catcher Deluxe &bull; Geetanshi Jain (Roll No: IC-2K22-34) &bull; Multimedia Systems Lab — Lab Test 2</p>
+  </footer>
+
+  <script type="module" src="/main.js"></script>
+</body>
+
+</html>
