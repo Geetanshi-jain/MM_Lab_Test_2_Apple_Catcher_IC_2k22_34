@@ -9,6 +9,13 @@
 **Technology Stack:** HTML5, CSS3, JavaScript (ES6 Modules), Phaser 3 (v3.80.1), Web Audio API, Vite  
 
 ---
+## 🚀 Live Demo
+
+You can access the deployed Apple Catcher game here:
+
+🔗 **[Play Apple Catcher – Live Demo](https://mmlabtest2.vercel.app/)**
+
+**Deployment Platform:** Vercel
 
 ## 1. Project Overview & Objective
 
